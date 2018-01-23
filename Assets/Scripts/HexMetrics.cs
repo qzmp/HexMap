@@ -8,15 +8,22 @@ public static class HexMetrics {
 
     public const float innerRadius = outerRadius * 0.866025404f;
 
-    public const float solidFactor = .75f;
+    public const float solidFactor = .8f;
     public const float blendFactor = 1f - solidFactor;
 
-    public const float elevationStep = 4f;
+    public const float elevationStep = 3f;
 
     public const int terracesPerSlope = 2;
     public const int terraceSteps = terracesPerSlope * 2 + 1;
     public const float horizontalTerraceStepSize = 1f / terraceSteps;
     public const float verticalTarraceStepSize = 1f / (terracesPerSlope + 1);
+
+    public static Texture2D noiseSource;
+    public const float cellPerturbStrength = 4f;
+    public const float noiseScale = 0.003f;
+    public const float elevationPeturbStrength = 1.5f;
+
+    public const int chunkSizeX = 5, chunkSizeZ = 5;
 
     private static Vector3[] corners = {
         new Vector3(0f, 0f, outerRadius),
@@ -81,5 +88,10 @@ public static class HexMetrics {
             return HexEdgeType.Slope;
         }
         return HexEdgeType.Cliff;
+    }
+
+    public static Vector4 SampleNoise (Vector3 position)
+    {
+        return noiseSource.GetPixelBilinear(position.x * noiseScale, position.z * noiseScale);
     }
 }
